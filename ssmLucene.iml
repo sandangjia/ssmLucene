@@ -67,5 +67,11 @@
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-highlighter:6.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-join:6.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.lucene:lucene-memory:6.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-core:1.2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.4" level="project" />
+    <orderEntry type="library" name="Maven: commons-beanutils:commons-beanutils:1.8.3" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.7.21" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-web:1.2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.shiro:shiro-spring:1.2.5" level="project" />
   </component>
 </module>
