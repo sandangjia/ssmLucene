@@ -26,7 +26,7 @@
     <title>聊天室</title>
 </head>
 
-<body data="/SSM-WEB">
+<body data="/ssmLucene">
 <input id="text" type="text"/>
 <button onclick="send()">发送</button>
 <button onclick="closeWebSocket()">关闭连接</button>
@@ -78,7 +78,7 @@
 
     //判断当前浏览器是否支持WebSocket
     if ('WebSocket' in window) {
-        websocket = new WebSocket("ws://192.168.0.102:8080/ssm/websocket");
+        websocket = new WebSocket("ws://192.168.0.111:8080/websocket");
     }
     else {
         alert("对不起！你的浏览器不支持webSocket")

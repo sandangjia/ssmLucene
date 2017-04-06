@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erinic.ssm.dao.ContentDao" >
+    <resultMap id="BaseResultMap" type="com.erinic.ssm.domain.Content" >
+        <id column="contentId" property="contentid" jdbcType="INTEGER"/>
+        <result property="contentname" column="contentname"/>
+        <result property="content" column="content"/>
+        <result property="createdate" column="createdate"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        contentId, contentname, content,createdate
+    </sql>
+
+    <select id="findContentList" parameterType="String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+    </select>
+
+    <insert id="insertSelective" parameterType="com.erinic.ssm.domain.Content" >
+        insert into content
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="contentid != null">
+                contentId,
+            </if>
+            <if test="contentname != null">
+                contentname,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="contentid != null">
+                #{contentId,jdbcType=INTEGER},
+            </if>
+            <if test="contentname != null">
+                #{contentname,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createdate != null">
+                #{createdate,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+</mapper>

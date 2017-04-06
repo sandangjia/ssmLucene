@@ -118,4 +118,57 @@
          <!--<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
              <!--<property name="securityManager" ref="securityManager"/>-->
          <!--</bean>-->
+    <!-- jedis 配置 -->
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}"/>
+        <property name="maxWaitMillis" value="${redis.maxWait}"/>
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
+    </bean>
+    <!-- redis服务器中心 -->
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="poolConfig" ref="poolConfig"/>
+        <property name="port" value="${redis.port}"/>
+        <property name="hostName" value="${redis.host}"/>
+        <property name="password" value="${redis.password}"/>
+        <property name="timeout" value="${redis.timeout}"></property>
+    </bean>
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+        </property>
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+        </property>
+    </bean>
+
+    <!-- cache配置 -->
+    <bean id="methodCacheInterceptor" class="com.erinic.ssm.interceptor.MethodCacheInterceptor">
+        <property name="redisUtil" ref="redisUtil"/>
+    </bean>
+    <bean id="redisUtil" class="com.erinic.ssm.utils.RedisUtil">
+        <property name="redisTemplate" ref="redisTemplate"/>
+    </bean>
+
+
+    <!--<bean id="dataSourceExchange" class="com.crossoverJie.util.DataSourceExchange"/>-->
+    <!--配置切面拦截方法 -->
+    <aop:config proxy-target-class="false">
+
+        <aop:pointcut id="controllerMethodPointcut" expression="
+        execution(* com.erinic.ssm.service.*.select*(..))"/>
+
+        <aop:pointcut id="selectMethodPointcut" expression="
+        execution(* com.erinic.ssm.dao.*Dao.select*(..))"/>
+
+        <aop:advisor advice-ref="methodCacheInterceptor" pointcut-ref="controllerMethodPointcut"/>
+
+        <!--所有数据库操作的方法加入切面-->
+        <!--<aop:aspect ref="dataSourceExchange">-->
+            <!--<aop:pointcut id="dataSourcePointcut" expression="execution(* com.crossoverJie.service.*.*(..))"/>-->
+            <!--<aop:before pointcut-ref="dataSourcePointcut" method="before"/>-->
+            <!--<aop:after pointcut-ref="dataSourcePointcut" method="after"/>-->
+        <!--</aop:aspect>-->
+
+    </aop:config>
 </beans>
